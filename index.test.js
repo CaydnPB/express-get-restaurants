@@ -49,6 +49,13 @@ describe('./restaurants endpoint', () => {
     const restaurants = response.body;
     expect(restaurants.length).toBe(4);
   });
+  test("POST /restaurants cannot have empty fields", async () => {
+    const response = await request(app)
+      .post('/restaurants')
+      .send({});
+    expect(response.body).toHaveProperty('error');
+    expect(response.body.error).toBeInstanceOf(Array);
+  });
   test("PUT /restaurants/:id returns updated restaurant data", async () => {
     const response = await request(app)
         .put("/restaurants/1")
